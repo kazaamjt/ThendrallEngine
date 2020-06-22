@@ -28,36 +28,60 @@ void Game::init() {
 		SDL_DestroyWindow
 	);
 
-	if (!window)
-	{
+	if (!window) {
 		Terminal::out_error("Failed to initialize SDL window");
 		Terminal::out_error(SDL_GetError());
 		exit(1);
 	}
 
-	Terminal::out_debug("Creating GL context");
+	Terminal::out_debug("Creating OpenGL context");
 	SDL_GLContext gl_context = SDL_GL_CreateContext(window.get());
-	if (!gl_context)
-	{
-		Terminal::out_error("Failed to initialize GL context");
+	if (!gl_context) {
+		Terminal::out_error("Failed to initialize OpenGL context");
 		exit(1);
 	}
 
 	glewExperimental = GL_TRUE;
 	Terminal::out_debug("Initilazing GL");
 	GLenum error = glewInit();
-	if (error != GLEW_OK)
-	{
-		Terminal::out_warning("Failed to initialize GL context");
+	if (error != GLEW_OK) {
+		Terminal::out_error("Failed to initialize GL context");
 		std::cout << "GLEW error: " << error << std::endl;
-		std::cout << "OpenGL error " << glGetError() << std::endl;
+		std::cout << "OpenGL error: " << glGetError() << std::endl;
 		exit(1);
 	}
+
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glViewport(0, 0, screen_width, screen_height);
+	Terminal::wait_for_input();
 }
 
 void Game::run() {
 	init();
+	main_loop();
+}
+
+void Game::main_loop() {
 	state = GameState::RUN;
+	while (state != GameState::STOP) {
+		process_input();
+	}
+}
+
+void Game::process_input() {
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+			case SDL_QUIT: {
+				state = GameState::STOP;
+			} break;
+
+			default: {
+				Terminal::out_debug("Unhandled event");
+			} break;
+		}
+	}
 }
 
 Game::~Game() {

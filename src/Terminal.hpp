@@ -12,6 +12,8 @@ public:
 	static void out_warning(const std::string &msg);
 	static void out_error(const std::string &msg);
 
+	static void wait_for_input();
+
 private:
 	static bool debug;
 };

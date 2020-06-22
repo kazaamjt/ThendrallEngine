@@ -23,6 +23,9 @@ private:
 
 	void init();
 
+	void main_loop();
+	void process_input();
+
 	std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> window;
 	int screen_width;
 	int screen_height;

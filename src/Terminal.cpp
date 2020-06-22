@@ -32,3 +32,8 @@ void Terminal::out_warning(const std::string &msg) {
 void Terminal::out_error(const std::string &msg) {
 	std::cout << "[" << rang::fg::red << "ERROR" << rang::fg::reset << "] " << msg << std::endl;
 }
+
+void Terminal::wait_for_input() {
+	std::cout << "\nPress Enter to continue..." << std::endl;
+	std::cin.ignore();
+}
