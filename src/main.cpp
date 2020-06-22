@@ -1,10 +1,9 @@
 #include <iostream>
 
 #include <cxxopts.hpp>
-#include <SDL2/SDL.h>
-#include <GL/glew.h>
 
-#include "terminal.hpp"
+#include "Terminal.hpp"
+#include "Game.hpp"
 
 inline void init_options(int argc, char *argv[]) {
 	cxxopts::Options options("Thendrall Tales", "Thendrall Tales v0.0.1");
@@ -18,10 +17,11 @@ inline void init_options(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-	Terminal::out_info("Starting up Thendrall Tales");
+	Terminal::out_info("Starting up Thendrall Engine");
 	init_options(argc, argv);
 
-	SDL_Init(SDL_INIT_EVERYTHING);
+	Game game = Game("Thendrall Tales");
+	game.run();
 
 	return 0;
 }
