@@ -1,0 +1,101 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_import")
+
+alias(
+	name = "main",
+	actual = ":ThendrallTales"
+)
+
+alias(
+	name = "windows",
+	actual = "@bazel_tools//src/conditions:windows",
+)
+
+cc_binary(
+	name = "ThendrallTales",
+	srcs = glob(["src/**"]),
+	deps = [
+		":rang",
+		":cxxopts",
+		":SDL2",
+		":SDL2main",
+		":glew",
+	],
+)
+
+# Third party
+## rang
+cc_library(
+	name = "rang",
+	hdrs = ["include/rang.hpp"],
+	strip_include_prefix = "include",
+)
+
+## cxxopts
+cc_library(
+	name = "cxxopts",
+	hdrs = ["include/cxxopts.hpp"],
+	strip_include_prefix = "include",
+)
+
+## SDL
+cc_library(
+	name = "SDL2",
+	hdrs = glob(["include/SDL2/*.h"]),
+	strip_include_prefix = "include",
+	deps = select({
+		":windows": [":SDL2impl-win32"],
+		"//conditions:default": [":SDL2impl-linux"],
+	}),
+)
+
+cc_import(
+	name = "SDL2impl-win32",
+	interface_library = "lib/win32/SDL2/SDL2.lib",
+	shared_library = "lib/win32/SDL2/SDL2.dll",
+)
+
+cc_import(
+	name = "SDL2impl-linux",
+	shared_library = "lib/linux/SDL2/libSDL2-2.0.so.0",
+)
+
+cc_library(
+	name = "SDL2main",
+	hdrs = glob(["include/SDL2/*.h"]),
+	strip_include_prefix = "include",
+	deps = [":SDL2mainimpl"],
+)
+
+cc_import(
+	name = "SDL2mainimpl",
+	static_library = select({
+		":windows": "lib/win32/SDL2/SDL2main.lib",
+		"//conditions:default": "lib/linux/SDL2/libSDL2main.a",
+	}),
+)
+
+## glew
+cc_library(
+	name = "glew",
+	hdrs = glob(["include/GL/*.h"]),
+	strip_include_prefix = "include",
+	linkopts = select({
+		":windows": ["opengl32.lib"],
+		"//conditions:default": ["-lGL"],
+	}),
+	deps = select({
+		":windows": [":glewimpl-win32"],
+		"//conditions:default": [":glewimpl-linux"],
+	}),
+)
+
+cc_import(
+	name = "glewimpl-win32",
+	interface_library = "lib/win32/GL/glew32.lib",
+	shared_library = "lib/win32/GL/glew32.dll"
+)
+
+cc_import(
+	name = "glewimpl-linux",
+	shared_library = "lib/linux/GL/libGLEW.so.2.2",
+)
