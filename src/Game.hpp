@@ -25,6 +25,7 @@ private:
 
 	void main_loop();
 	void process_input();
+	void draw();
 
 	std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> window;
 	int screen_width;

@@ -19,6 +19,7 @@ void Game::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 	{
 		Terminal::out_error("Failed to initialize SDL");
+		Terminal::wait_for_input();
 		exit(1);
 	}
 
@@ -31,6 +32,7 @@ void Game::init() {
 	if (!window) {
 		Terminal::out_error("Failed to initialize SDL window");
 		Terminal::out_error(SDL_GetError());
+		Terminal::wait_for_input();
 		exit(1);
 	}
 
@@ -38,6 +40,7 @@ void Game::init() {
 	SDL_GLContext gl_context = SDL_GL_CreateContext(window.get());
 	if (!gl_context) {
 		Terminal::out_error("Failed to initialize OpenGL context");
+		Terminal::wait_for_input();
 		exit(1);
 	}
 
@@ -48,13 +51,13 @@ void Game::init() {
 		Terminal::out_error("Failed to initialize GL context");
 		std::cout << "GLEW error: " << error << std::endl;
 		std::cout << "OpenGL error: " << glGetError() << std::endl;
+		Terminal::wait_for_input();
 		exit(1);
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, screen_width, screen_height);
-	Terminal::wait_for_input();
 }
 
 void Game::run() {
@@ -66,6 +69,7 @@ void Game::main_loop() {
 	state = GameState::RUN;
 	while (state != GameState::STOP) {
 		process_input();
+		draw();
 	}
 }
 
@@ -78,10 +82,17 @@ void Game::process_input() {
 			} break;
 
 			default: {
-				Terminal::out_debug("Unhandled event");
+				// Terminal::out_debug("Unhandled event");
 			} break;
 		}
 	}
+}
+
+void Game::draw() {
+	glClearDepth(1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	SDL_GL_SwapWindow(window.get());
 }
 
 Game::~Game() {
