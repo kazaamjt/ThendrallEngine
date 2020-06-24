@@ -9,15 +9,15 @@ Game::Game(const std::string &_name):
 	window(nullptr),
 	screen_width(1024),
 	screen_height(768),
-	state(GameState::INIT)
+	state(GameState::INIT),
+	sprite(-1.0f, -1.0f, 1.0f, 1.0f)
 {
 	Terminal::out_debug("Setting up game class for " + name);
 }
 
 void Game::init() {
 	Terminal::out_debug("Initilazing SDL");
-	if (SDL_Init(SDL_INIT_EVERYTHING))
-	{
+	if (SDL_Init(SDL_INIT_EVERYTHING)) {
 		Terminal::out_error("Failed to initialize SDL");
 		Terminal::wait_for_input();
 		exit(1);
@@ -58,6 +58,7 @@ void Game::init() {
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, screen_width, screen_height);
+	sprite.update(-1.0f, -1.0f);
 }
 
 void Game::run() {
@@ -91,6 +92,8 @@ void Game::process_input() {
 void Game::draw() {
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	sprite.draw();
 
 	SDL_GL_SwapWindow(window.get());
 }

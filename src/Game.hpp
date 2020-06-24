@@ -5,6 +5,8 @@
 
 #include <SDL2/SDL.h>
 
+#include "Sprite.hpp"
+
 enum class GameState {
 	INIT,
 	RUN,
@@ -31,4 +33,6 @@ private:
 	int screen_width;
 	int screen_height;
 	GameState state;
+
+	Sprite sprite;
 };
