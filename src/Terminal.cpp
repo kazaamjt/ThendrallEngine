@@ -1,4 +1,4 @@
-#include "terminal.hpp"
+#include "Terminal.hpp"
 #include <rang.hpp>
 
 bool Terminal::debug = false;
@@ -26,14 +26,16 @@ void Terminal::out_info(const std::string &msg) {
 }
 
 void Terminal::out_warning(const std::string &msg) {
-	std::cout << "[" << rang::fg::yellow << "WARNING" << rang::fg::reset << "] " << msg << std::endl;
+	std::cerr << "[" << rang::fg::yellow << "WARNING" << rang::fg::reset << "] " << msg << std::endl;
 }
 
-void Terminal::out_error(const std::string &msg) {
-	std::cout << "[" << rang::fg::red << "ERROR" << rang::fg::reset << "] " << msg << std::endl;
+void Terminal::out_error(const std::string &msg, bool exit) {
+	std::cerr << "[" << rang::fg::red << "ERROR" << rang::fg::reset << "] " << msg << std::endl;
+	if (exit) freeze_exit();
 }
 
-void Terminal::wait_for_input() {
+void Terminal::freeze_exit() {
 	std::cout << "\nPress Enter to continue..." << std::endl;
 	std::cin.ignore();
+	exit(1);
 }

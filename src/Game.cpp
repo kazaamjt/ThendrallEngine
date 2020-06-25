@@ -19,8 +19,7 @@ void Game::init() {
 	Terminal::out_debug("Initilazing SDL");
 	if (SDL_Init(SDL_INIT_EVERYTHING)) {
 		Terminal::out_error("Failed to initialize SDL");
-		Terminal::wait_for_input();
-		exit(1);
+		Terminal::freeze_exit();
 	}
 
 	Terminal::out_debug("Initilazing SDL window");
@@ -30,29 +29,25 @@ void Game::init() {
 	);
 
 	if (!window) {
-		Terminal::out_error("Failed to initialize SDL window");
+		Terminal::out_error("Failed to initialize SDL window", false);
 		Terminal::out_error(SDL_GetError());
-		Terminal::wait_for_input();
-		exit(1);
+		Terminal::freeze_exit();
 	}
 
 	Terminal::out_debug("Creating OpenGL context");
 	SDL_GLContext gl_context = SDL_GL_CreateContext(window.get());
 	if (!gl_context) {
 		Terminal::out_error("Failed to initialize OpenGL context");
-		Terminal::wait_for_input();
-		exit(1);
 	}
 
 	glewExperimental = GL_TRUE;
 	Terminal::out_debug("Initilazing GL");
 	GLenum error = glewInit();
 	if (error != GLEW_OK) {
-		Terminal::out_error("Failed to initialize GL context");
+		Terminal::out_error("Failed to initialize GL context", false);
 		std::cout << "GLEW error: " << error << std::endl;
 		std::cout << "OpenGL error: " << glGetError() << std::endl;
-		Terminal::wait_for_input();
-		exit(1);
+		Terminal::freeze_exit();
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);

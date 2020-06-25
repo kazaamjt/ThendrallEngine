@@ -10,9 +10,9 @@ public:
 	static void out_debug(const std::string &msg);
 	static void out_info(const std::string &msg);
 	static void out_warning(const std::string &msg);
-	static void out_error(const std::string &msg);
+	static void out_error(const std::string &msg, bool exit=true);
 
-	static void wait_for_input();
+	[[ noreturn ]] static void freeze_exit();
 
 private:
 	static bool debug;
