@@ -52,6 +52,11 @@ void Game::init() {
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	color_program.compile_shaders("data/shaders/ColorShader.vert", "data/shaders/ColorShader.frag");
+	color_program.add_attribute("vertex_position");
+	color_program.link_shaders();
+
 	glViewport(0, 0, screen_width, screen_height);
 	sprite.update(-1.0f, -1.0f);
 }
@@ -88,7 +93,9 @@ void Game::draw() {
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	color_program.use();
 	sprite.draw();
+	color_program.unuse();
 
 	SDL_GL_SwapWindow(window.get());
 }

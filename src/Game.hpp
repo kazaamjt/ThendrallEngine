@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 
 #include "Sprite.hpp"
+#include "GLSLProgram.hpp"
 
 enum class GameState {
 	INIT,
@@ -35,4 +36,6 @@ private:
 	GameState state;
 
 	Sprite sprite;
+
+	GLSLProgram color_program;
 };
