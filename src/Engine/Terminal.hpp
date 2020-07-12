@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+namespace Engine {
+
 class Terminal {
 public:
 	static void enable_debug();
@@ -17,3 +19,5 @@ public:
 private:
 	static bool debug;
 };
+
+} // Engine

@@ -4,6 +4,8 @@
 
 #include "Terminal.hpp"
 
+namespace Engine {
+
 Game::Game(const std::string &_name):
 	name(_name),
 	window(nullptr),
@@ -103,3 +105,5 @@ void Game::draw() {
 Game::~Game() {
 	Terminal::out_debug("Cleaning up game class for " + name);
 }
+
+} // Engine

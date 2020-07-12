@@ -6,8 +6,6 @@ param(
 	[switch]$Clean=$false
 )
 
-# TODO: implement linux
-
 if ($Clean) {
 	bazel clean
 }

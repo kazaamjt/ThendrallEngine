@@ -1,5 +1,8 @@
+#pragma once
 #include <string>
 #include <GL/glew.h>
+
+namespace Engine {
 
 class GLSLProgram {
 public:
@@ -22,3 +25,4 @@ private:
 
 	void compile_shader(const std::string &shader, GLuint shader_id);
 };
+} // Engine

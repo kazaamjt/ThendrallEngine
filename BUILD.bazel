@@ -12,7 +12,17 @@ alias(
 
 cc_binary(
 	name = "ThendrallTales",
-	srcs = glob(["src/**"]),
+	srcs = ["src/main.cpp"],
+	deps = [
+		":Engine",
+	],
+)
+
+# Game Engine
+cc_library(
+	name = "Engine",
+	hdrs = glob(["src/Engine/**/*.hpp"]),
+	srcs = glob(["src/Engine/**/*.cpp"]),
 	deps = [
 		":rang",
 		":cxxopts",

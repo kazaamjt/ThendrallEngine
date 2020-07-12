@@ -1,6 +1,8 @@
 #pragma once
 #include <GL/glew.h>
 
+namespace Engine {
+
 class Sprite {
 public:
 	Sprite(float x, float y, float width, float height);
@@ -17,3 +19,4 @@ private:
 
 	GLuint vbo_id;
 };
+} // Engine

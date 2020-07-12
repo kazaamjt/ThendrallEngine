@@ -6,6 +6,8 @@
 
 #include "Terminal.hpp"
 
+namespace Engine {
+
 GLSLProgram::GLSLProgram(/* args */):
 	number_of_attributes(0),
 	program_id(0),
@@ -119,3 +121,5 @@ void GLSLProgram::unuse() {
 GLSLProgram::~GLSLProgram() {
 
 }
+
+} // Engine

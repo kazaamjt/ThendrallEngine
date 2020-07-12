@@ -8,6 +8,8 @@
 #include "Sprite.hpp"
 #include "GLSLProgram.hpp"
 
+namespace Engine {
+
 enum class GameState {
 	INIT,
 	RUN,
@@ -39,3 +41,5 @@ private:
 
 	GLSLProgram color_program;
 };
+
+} // Engine

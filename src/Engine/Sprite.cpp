@@ -1,6 +1,8 @@
 #include "Sprite.hpp"
 #include "Terminal.hpp"
 
+namespace Engine {
+
 Sprite::Sprite(float _x, float _y, float _width, float _height):
 	x(_x), y(_y), width(_width), height(_height), vbo_id(0)
 {
@@ -58,3 +60,5 @@ Sprite::~Sprite() {
 		glDeleteBuffers(1, &vbo_id);
 	}
 }
+
+} // Engine

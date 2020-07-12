@@ -1,6 +1,8 @@
 #include "Terminal.hpp"
 #include <rang.hpp>
 
+namespace Engine {
+
 bool Terminal::debug = false;
 
 void Terminal::enable_debug() {
@@ -22,7 +24,7 @@ void Terminal::out_debug(const std::string &msg) {
 }
 
 void Terminal::out_info(const std::string &msg) {
-	std::cout << "[INFO] " << msg << std::endl;
+	std::cout << "[" << rang::fg::green << "INFO" << rang::fg::reset << "] " << msg << std::endl;
 }
 
 void Terminal::out_warning(const std::string &msg) {
@@ -39,3 +41,5 @@ void Terminal::freeze_exit() {
 	std::cin.ignore();
 	exit(1);
 }
+
+} // Engine
