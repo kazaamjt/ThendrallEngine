@@ -60,13 +60,13 @@ cc_library(
 
 cc_import(
 	name = "SDL2impl-win32",
-	interface_library = "lib/win32/SDL2/SDL2.lib",
-	shared_library = "lib/win32/SDL2/SDL2.dll",
+	interface_library = "lib/SDL2/win32/SDL2.lib",
+	shared_library = "lib/SDL2/win32/SDL2.dll",
 )
 
 cc_import(
 	name = "SDL2impl-linux",
-	shared_library = "lib/linux/SDL2/libSDL2-2.0.so.0",
+	shared_library = "lib/SDL2/linux/libSDL2-2.0.so.0",
 )
 
 cc_library(
@@ -79,8 +79,8 @@ cc_library(
 cc_import(
 	name = "SDL2mainimpl",
 	static_library = select({
-		":windows": "lib/win32/SDL2/SDL2main.lib",
-		"//conditions:default": "lib/linux/SDL2/libSDL2main.a",
+		":windows": "lib/SDL2/win32/SDL2main.lib",
+		"//conditions:default": "lib/SDL2/linux/libSDL2main.a",
 	}),
 )
 
@@ -101,11 +101,11 @@ cc_library(
 
 cc_import(
 	name = "glewimpl-win32",
-	interface_library = "lib/win32/GL/glew32.lib",
-	shared_library = "lib/win32/GL/glew32.dll"
+	interface_library = "lib/GL/win32/glew32.lib",
+	shared_library = "lib/GL/win32/glew32.dll"
 )
 
 cc_import(
 	name = "glewimpl-linux",
-	shared_library = "lib/linux/GL/libGLEW.so.2.2",
+	shared_library = "lib/GL/linux/libGLEW.so.2.2",
 )

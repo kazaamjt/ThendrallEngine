@@ -17,5 +17,5 @@ if ($Compiler -eq 'clang') {
 else {
 	bazel build main --config=cl --keep_going
 }
-Copy-Item lib/win32/GL/glew32.dll bazel-bin/glew32.dll
-Copy-Item lib/win32/SDL2/SDL2.dll bazel-bin/SDL2.dll
+Copy-Item lib/GL/win32/glew32.dll bazel-bin/glew32.dll
+Copy-Item lib/SDL2/win32/SDL2.dll bazel-bin/SDL2.dll
