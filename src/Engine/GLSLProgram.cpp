@@ -56,7 +56,7 @@ void GLSLProgram::compile_shader(const std::string &shader, GLuint shader_id) {
 		GLint max_length = 0;
 		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &max_length);
 
-		std::vector<char> error(max_length);
+		std::vector<GLchar> error(max_length);
 		glGetShaderInfoLog(shader_id, max_length, &max_length, &error[0]);
 
 		glDeleteShader(shader_id);
@@ -79,7 +79,7 @@ void GLSLProgram::link_shaders() {
 		GLint max_length = 0;
 		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &max_length);
 
-		std::vector<char> error(max_length);
+		std::vector<GLchar> error(max_length);
 		glGetShaderInfoLog(program_id, max_length, &max_length, &error[0]);
 
 		glDeleteProgram(program_id);

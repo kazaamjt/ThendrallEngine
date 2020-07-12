@@ -21,6 +21,7 @@ public:
 	Game(const std::string &name);
 	~Game();
 
+	Uint32 sdl_window_flags = SDL_WINDOW_OPENGL;
 	void run();
 
 private:

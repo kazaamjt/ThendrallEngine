@@ -6,10 +6,10 @@
 #include "Engine/Game.hpp"
 
 inline void init_options(int argc, char *argv[]) {
-	cxxopts::Options options("Thendrall Tales", "Thendrall Tales v0.0.1");
+	cxxopts::Options options("ThendrallTales", "Thendrall Tales v0.0.1");
 	options.add_options()
 		("d,debug", "Enable debugging")
-		("h,help", "Prints this help msg")
+		("h,help", "Prints this help message")
 	;
 
 	auto result = options.parse(argc, argv);

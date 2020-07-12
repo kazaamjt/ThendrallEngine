@@ -9,10 +9,10 @@ namespace Engine {
 Game::Game(const std::string &_name):
 	name(_name),
 	window(nullptr),
-	screen_width(1024),
-	screen_height(768),
+	screen_width(1280),
+	screen_height(720),
 	state(GameState::INIT),
-	sprite(-1.0f, -1.0f, 1.0f, 1.0f)
+	sprite(-1.0f, -1.0f, 2.0f, 2.0f)
 {
 	Terminal::out_debug("Setting up game class for " + name);
 }
@@ -26,7 +26,7 @@ void Game::init() {
 
 	Terminal::out_debug("Initilazing SDL window");
 	window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
-		SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width, screen_height, SDL_WINDOW_OPENGL),
+		SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width, screen_height, sdl_window_flags),
 		SDL_DestroyWindow
 	);
 
@@ -57,6 +57,7 @@ void Game::init() {
 
 	color_program.compile_shaders("data/shaders/ColorShader.vert", "data/shaders/ColorShader.frag");
 	color_program.add_attribute("vertex_position");
+	color_program.add_attribute("vertex_color");
 	color_program.link_shaders();
 
 	glViewport(0, 0, screen_width, screen_height);

@@ -1,4 +1,5 @@
 #include "Terminal.hpp"
+
 #include <rang.hpp>
 
 namespace Engine {
