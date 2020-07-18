@@ -8,7 +8,8 @@
 
 namespace Engine {
 
-GLSLProgram::GLSLProgram(/* args */):
+GLSLProgram::GLSLProgram(const std::string &_name):
+	name(_name),
 	number_of_attributes(0),
 	program_id(0),
 	vertex_shader_id(0),
@@ -19,10 +20,10 @@ GLSLProgram::GLSLProgram(/* args */):
 
 void GLSLProgram::compile_shaders(const std::string &vertex_shader, const std::string &fragment_shader) {
 	program_id = glCreateProgram();
-	Terminal::out_debug("Compiling shader program " + std::to_string(program_id));
+	Terminal::out_debug("Compiling shader program " + name + " [id: " + std::to_string(program_id) + "]");
 	vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
 	if (vertex_shader_id == 0) {
-		Terminal::out_error("Failed to allocate a vertex Shader id.");
+		Terminal::out_error("Failed to allocate a vertex Shader id for shader " + name + "." );
 	}
 
 	fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
@@ -56,7 +57,7 @@ void GLSLProgram::compile_shader(const std::string &shader, GLuint shader_id) {
 		GLint max_length = 0;
 		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &max_length);
 
-		std::vector<GLchar> error(max_length);
+		std::vector<GLchar> error(static_cast<unsigned long long>(max_length));
 		glGetShaderInfoLog(shader_id, max_length, &max_length, &error[0]);
 
 		glDeleteShader(shader_id);
@@ -79,14 +80,17 @@ void GLSLProgram::link_shaders() {
 		GLint max_length = 0;
 		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &max_length);
 
-		std::vector<GLchar> error(max_length);
+		std::vector<GLchar> error(static_cast<unsigned long long>(max_length));
 		glGetShaderInfoLog(program_id, max_length, &max_length, &error[0]);
 
 		glDeleteProgram(program_id);
 		glDeleteShader(vertex_shader_id);
 		glDeleteShader(fragment_shader_id);
 
-		Terminal::out_error("Failed to link GLSL program " + std::to_string(program_id), false);
+		Terminal::out_error(
+			"Failed to link GLSL program "
+			+ name + " [id: " + std::to_string(program_id) + "]", false
+		);
 		std::printf("%s\n", &(error[0]));
 		Terminal::freeze_exit();
 	}
@@ -99,9 +103,18 @@ void GLSLProgram::link_shaders() {
 
 void GLSLProgram::add_attribute(const std::string &attribute_name) {
 	if (program_id == 0) {
-		Terminal::out_warning("Added attribute to program with id 0. ");
+		Terminal::out_warning("Added attribute to program with id 0.");
 	}
 	glBindAttribLocation(program_id, number_of_attributes++, attribute_name.c_str());
+}
+
+GLint GLSLProgram::get_uniform_location(const std::string &uniform_name) {
+	GLint location = glGetUniformLocation(program_id, uniform_name.c_str());
+	if (location == static_cast<GLint>(GL_INVALID_INDEX)) {
+		Terminal::out_error("Uniform " + uniform_name + " not found in shader program " + name);
+	}
+
+	return location;
 }
 
 void GLSLProgram::use() {

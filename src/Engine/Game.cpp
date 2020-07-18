@@ -12,7 +12,9 @@ Game::Game(const std::string &_name):
 	screen_width(1280),
 	screen_height(720),
 	state(GameState::INIT),
-	sprite(-1.0f, -1.0f, 2.0f, 2.0f)
+	sprite(-1.0f, -1.0f, 2.0f, 2.0f),
+	color_shader("color_shader"),
+	time(0)
 {
 	Terminal::out_debug("Setting up game class for " + name);
 }
@@ -55,10 +57,10 @@ void Game::init() {
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	color_program.compile_shaders("data/shaders/ColorShader.vert", "data/shaders/ColorShader.frag");
-	color_program.add_attribute("vertex_position");
-	color_program.add_attribute("vertex_color");
-	color_program.link_shaders();
+	color_shader.compile_shaders("data/shaders/ColorShader.vert", "data/shaders/ColorShader.frag");
+	color_shader.add_attribute("vertex_position");
+	color_shader.add_attribute("vertex_color");
+	color_shader.link_shaders();
 
 	glViewport(0, 0, screen_width, screen_height);
 	sprite.update(-1.0f, -1.0f);
@@ -73,6 +75,7 @@ void Game::main_loop() {
 	state = GameState::RUN;
 	while (state != GameState::STOP) {
 		process_input();
+		time += 0.01f;
 		draw();
 	}
 }
@@ -96,15 +99,29 @@ void Game::draw() {
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	color_program.use();
+
+	color_shader.use();
+	GLint time_uniform = color_shader.get_uniform_location("time");
+	glUniform1f(time_uniform, time);
+
 	sprite.draw();
-	color_program.unuse();
+
+	color_shader.unuse();
 
 	SDL_GL_SwapWindow(window.get());
 }
 
+void Game::cleanup() {
+	Terminal::out_debug("Destroying SDL window.");
+	if (window) {
+		SDL_DestroyWindow(window.get());
+	}
+	SDL_Quit();
+}
+
 Game::~Game() {
-	Terminal::out_debug("Cleaning up game class for " + name);
+	Terminal::out_debug("Destructor called on Game object for " + name + ".");
+	cleanup();
 }
 
 } // Engine

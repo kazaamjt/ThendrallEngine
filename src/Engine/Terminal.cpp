@@ -1,10 +1,12 @@
 #include "Terminal.hpp"
 
 #include <rang.hpp>
+#include <SDL2/SDL.h>
 
 namespace Engine {
 
 bool Terminal::debug = false;
+
 
 void Terminal::enable_debug() {
 	debug = true;
@@ -34,7 +36,10 @@ void Terminal::out_warning(const std::string &msg) {
 
 void Terminal::out_error(const std::string &msg, bool exit) {
 	std::cerr << "[" << rang::fg::red << "ERROR" << rang::fg::reset << "] " << msg << std::endl;
-	if (exit) freeze_exit();
+	if (exit){
+		SDL_Quit();
+		freeze_exit();
+	}
 }
 
 void Terminal::freeze_exit() {

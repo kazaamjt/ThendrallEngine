@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <functional>
 #include <memory>
 #include <string>
@@ -9,6 +10,9 @@
 #include "GLSLProgram.hpp"
 
 namespace Engine {
+
+typedef std::chrono::high_resolution_clock Clock;
+typedef std::chrono::steady_clock::time_point TimePoint;
 
 enum class GameState {
 	INIT,
@@ -40,7 +44,8 @@ private:
 
 	Sprite sprite;
 
-	GLSLProgram color_program;
+	GLSLProgram color_shader;
+	float time;
 };
 
 } // Engine
