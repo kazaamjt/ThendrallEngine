@@ -1,2 +1,11 @@
+# generated stuff
+bazel-*/
+data/textures/
+
+# python stuff
+.env/
+.mypy_cache
+
+# Editors
 .vscode
-bazel-*
+
