@@ -111,17 +111,13 @@ void Game::draw() {
 	SDL_GL_SwapWindow(window.get());
 }
 
-void Game::cleanup() {
+Game::~Game() {
+	Terminal::out_debug("Destructor called on Game object for " + name + ".");
 	Terminal::out_debug("Destroying SDL window.");
 	if (window) {
 		SDL_DestroyWindow(window.get());
 	}
 	SDL_Quit();
-}
-
-Game::~Game() {
-	Terminal::out_debug("Destructor called on Game object for " + name + ".");
-	cleanup();
 }
 
 } // Engine
