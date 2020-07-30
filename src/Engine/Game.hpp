@@ -8,6 +8,7 @@
 
 #include "Sprite.hpp"
 #include "GLSLProgram.hpp"
+#include "GLTexture.hpp"
 
 namespace Engine {
 
@@ -46,6 +47,8 @@ private:
 
 	GLSLProgram color_shader;
 	float time;
+
+	GLTexture player_texture;
 };
 
 } // Engine

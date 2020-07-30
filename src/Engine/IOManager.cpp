@@ -6,8 +6,9 @@
 
 namespace Engine {
 
-std::unique_ptr<std::vector<char>> IOManager::read_file_to_buffer(const std::string &file_path) {
-	auto buffer = std::unique_ptr<std::vector<char>>(new std::vector<char>());
+std::unique_ptr<std::vector<unsigned char>> IOManager::read_file_to_buffer(const std::string &file_path) {
+	Terminal::out_debug("IOManager: loading file " + file_path);
+	auto buffer = std::unique_ptr<std::vector<unsigned char>>(new std::vector<unsigned char>());
 	std::ifstream file(file_path, std::ios::binary);
 	if (file.fail()) {
 		throw "Failed to load file " + file_path + ": " + strerror(errno);
@@ -21,7 +22,7 @@ std::unique_ptr<std::vector<char>> IOManager::read_file_to_buffer(const std::str
 	file_size -= file.tellg();
 
 	buffer->resize(static_cast<unsigned long long>(file_size));
-	file.read(&buffer->at(0), file_size);
+	file.read(reinterpret_cast<char*>(&buffer->at(0)), file_size);
 	file.close();
 
 	return std::move(buffer);

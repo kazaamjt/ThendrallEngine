@@ -12,6 +12,7 @@ build:clang-cl --copt /clang:--system-header-prefix=GL
 build:clang-cl --copt /clang:--system-header-prefix=SDL2
 build:clang-cl --copt /clang:--system-header-prefix=cxxopts
 build:clang-cl --copt /clang:--system-header-prefix=rang
+build:clang-cl --copt /clang:--system-header-prefix=picopng
 
 build:clang --copt -m64
 build:clang --copt -std=c++17
@@ -22,3 +23,4 @@ build:clang --copt --system-header-prefix=GL
 build:clang --copt --system-header-prefix=SDL2
 build:clang --copt --system-header-prefix=cxxopts
 build:clang --copt --system-header-prefix=rang
+build:clang --copt --system-header-prefix=picopng
