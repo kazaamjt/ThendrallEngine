@@ -47,8 +47,6 @@ private:
 
 	GLSLProgram color_shader;
 	float time;
-
-	GLTexture player_texture;
 };
 
 } // Engine

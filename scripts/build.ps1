@@ -3,11 +3,17 @@ param(
 	[ValidateSet('msvc', 'gcc', 'clang')]
 	[string]$Compiler='clang',
 
-	[switch]$Clean=$false
+	[switch]$Clean=$false,
+	# Regenerate all art assets
+	[switch]$GenerateAssets=$false
 )
 
 if ($Clean) {
 	bazel clean
+}
+
+if ($GenerateAssets) {
+	python .\scripts\texture_generator\main.py --in .\art --out .\data\textures
 }
 
 if ($Compiler -eq 'clang') {
