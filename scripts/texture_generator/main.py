@@ -1,14 +1,11 @@
+import math
 import sys
 import shutil
 from pathlib import Path
 
 import click
 from psd_tools import PSDImage
-
-def process_psd(file_path: Path, out_path: Path) -> None:
-	png_path = out_path.joinpath("/".join(file_path.parts[1:])).with_suffix(".png")
-	psd = PSDImage.open(file_path)
-	psd.composite().save(png_path)
+from PIL import Image
 
 @click.command()
 @click.option('--in', prompt='Input path', help='The path to directory containing psd files')
@@ -27,16 +24,52 @@ def main(**kwargs: str) -> None:
 	output_dir.mkdir()
 
 	files_processed = 0
-	for sub in input_dir.iterdir():
-		output_dir.joinpath("/".join(sub.parts[1:])).mkdir()
 
-	for psd_file in input_dir.glob("**/*.psd"):
-		process_psd(psd_file, output_dir)
-		files_processed += 1
+	for obj in input_dir.glob("**/*"):
+		if obj.is_dir():
+			output_dir.joinpath("/".join(obj.parts[1:])).mkdir()
+		elif str(obj).endswith(".psd"):
+			process_psd(obj, output_dir)
+			files_processed += 1
 
 	if files_processed == 0:
 		print("ERROR: No psd files found under: ", input_dir)
-		sys.exit(1)
+
+	print(f"Processed {files_processed} files")
+
+
+def process_psd(file_path: Path, out_path: Path) -> None:
+	png_path = out_path.joinpath("/".join(file_path.parts[1:])).with_suffix(".png")
+	psd = PSDImage.open(file_path)
+
+	len_psd = len(psd)
+	if len_psd > 1:
+		width = nearest_square(len_psd)
+		height = width
+		if len_psd <= width * (width - 1):
+			height = width - 1
+
+		new_image = Image.new('RGBA', (width * psd.width, height * psd.height))
+		for i, layer in enumerate(psd):
+			row = 0
+			column = 0
+			if i != 0:
+				column, row = divmod(i, width)
+			box = (
+				row * psd.width,
+				column * psd.height,
+				(row + 1) * psd.width,
+				(column + 1) * psd.height,
+			)
+			new_image.paste(layer.composite(), box=box)
+			new_image.save(png_path)
+	else:
+		psd.composite().save(png_path)
+
+
+def nearest_square(number: int) -> int:
+	sqrt = math.sqrt(number)
+	return math.ceil(sqrt)
 
 if __name__ == '__main__':
 	main() # pylint: disable=no-value-for-parameter
