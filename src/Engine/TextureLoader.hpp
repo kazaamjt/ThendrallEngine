@@ -6,7 +6,7 @@
 
 namespace Engine {
 
-class SpriteLoader {
+class TextureLoader {
 public:
 	static GLTexture load_png(const std::string &name);
 };

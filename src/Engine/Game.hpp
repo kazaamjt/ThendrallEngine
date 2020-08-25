@@ -44,6 +44,7 @@ private:
 	GameState state;
 
 	Sprite sprite;
+	GLTexture texture;
 
 	GLSLProgram color_shader;
 	float time;

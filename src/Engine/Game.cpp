@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 
 #include "Terminal.hpp"
+#include "TextureLoader.hpp"
 
 namespace Engine {
 
@@ -57,9 +58,11 @@ void Game::init() {
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+	Terminal::out_debug("Loading shaders");
 	color_shader.compile_shaders("data/shaders/ColorShader.vert", "data/shaders/ColorShader.frag");
 	color_shader.add_attribute("vertex_position");
 	color_shader.add_attribute("vertex_color");
+	color_shader.add_attribute("vertex_uv");
 	color_shader.link_shaders();
 
 	glViewport(0, 0, screen_width, screen_height);
@@ -68,6 +71,7 @@ void Game::init() {
 
 void Game::run() {
 	init();
+	texture = TextureLoader::load_png("test");
 	main_loop();
 }
 
@@ -99,13 +103,19 @@ void Game::draw() {
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
 	color_shader.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture.id);
+
+	GLint sampler_uniform = color_shader.get_uniform_location("in_texture");
+	glUniform1i(sampler_uniform, 0);
+
 	GLint time_uniform = color_shader.get_uniform_location("time");
 	glUniform1f(time_uniform, time);
 
 	sprite.draw();
 
+	glBindTexture(GL_TEXTURE_2D, 0);
 	color_shader.unuse();
 
 	SDL_GL_SwapWindow(window.get());

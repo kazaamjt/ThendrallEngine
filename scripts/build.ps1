@@ -1,6 +1,6 @@
 param(
 	[parameter(mandatory=$false)]
-	[string]$Name,
+	[string]$Name="main",
 	[ValidateSet('msvc', 'gcc', 'clang')]
 	[string]$Compiler='clang',
 
@@ -9,12 +9,15 @@ param(
 	[switch]$GenerateAssets=$false
 )
 
+$Return = Get-Location
+Set-Location "$PSScriptRoot\.."
+
 if ($Clean) {
 	bazel clean
 }
 
 if ($GenerateAssets) {
-	python .\scripts\texture_generator\main.py --in .\art --out .\data\textures
+	.\scripts\texture_generator\env\Scripts\python.exe .\scripts\texture_generator\main.py --in .\art --out .\data\textures
 }
 
 if ($Compiler -eq 'clang') {
@@ -26,3 +29,5 @@ else {
 }
 Copy-Item lib/GL/win32/glew32.dll bazel-bin/glew32.dll
 Copy-Item lib/SDL2/win32/SDL2.dll bazel-bin/SDL2.dll
+
+Set-Location $Return

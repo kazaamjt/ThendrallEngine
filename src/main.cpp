@@ -31,5 +31,6 @@ int main(int argc, char *argv[]) {
 	Engine::Game *game = new Engine::Game("Thendrall Tales");
 	game->run();
 
+	delete game;
 	return 0;
 }

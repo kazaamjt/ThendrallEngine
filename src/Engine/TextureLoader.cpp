@@ -1,16 +1,16 @@
-#include "SpriteLoader.hpp"
+#include "TextureLoader.hpp"
 
 #include <memory>
 #include <vector>
 
 #include <picopng.hpp>
 
-#include "IOManager.hpp"
 #include "Terminal.hpp"
+#include "IOManager.hpp"
 
 namespace Engine {
 
-GLTexture SpriteLoader::load_png(const std::string &name) {
+GLTexture TextureLoader::load_png(const std::string &name) {
 	GLTexture texture = {};
 
 	std::unique_ptr<std::vector<unsigned char>> raw_data;
@@ -30,9 +30,7 @@ GLTexture SpriteLoader::load_png(const std::string &name) {
 	texture.width = static_cast<int>(width);
 	texture.height = static_cast<int>(height);
 
-	glGenTextures(1, &(texture.id));
-	glBindTexture(GL_TEXTURE_2D, texture.id);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.width, texture.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &out[0]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.width, texture.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(out[0]));
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

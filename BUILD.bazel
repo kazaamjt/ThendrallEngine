@@ -26,9 +26,8 @@ cc_library(
 	deps = [
 		":rang",
 		":cxxopts",
-		"picopng",
+		":picopng",
 		":SDL2",
-		":SDL2main",
 		":glew",
 	],
 )
@@ -60,7 +59,7 @@ cc_library(
 	name = "SDL2",
 	hdrs = glob(["include/SDL2/*.h"]),
 	strip_include_prefix = "include",
-	deps = select({
+	deps = ["SDL2main"] + select({
 		":windows": [":SDL2impl-win32"],
 		"//conditions:default": [":SDL2impl-linux"],
 	}),

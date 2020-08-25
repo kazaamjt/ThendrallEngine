@@ -5,6 +5,7 @@ data/textures/
 # python stuff
 .env/
 .mypy_cache
+env/
 
 # Editors
 .vscode
