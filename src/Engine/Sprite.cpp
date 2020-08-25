@@ -55,6 +55,8 @@ void Sprite::update(float _x, float _y) {
 void Sprite::draw() {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	// Position attribute
 	glVertexAttribPointer(
@@ -80,7 +82,7 @@ void Sprite::draw() {
 	glVertexAttribPointer(
 		2,
 		2,
-		GL_UNSIGNED_BYTE,
+		GL_FLOAT,
 		GL_TRUE,
 		sizeof(Vertex),
 		reinterpret_cast<void*>(offsetof(Vertex, uv))

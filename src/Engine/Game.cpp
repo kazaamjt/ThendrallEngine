@@ -71,7 +71,7 @@ void Game::init() {
 
 void Game::run() {
 	init();
-	texture = TextureLoader::load_png("test");
+	texture = TextureLoader::load_png("dude");
 	main_loop();
 }
 

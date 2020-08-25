@@ -9,7 +9,7 @@ build:clang-cl --copt /clang:-Weverything
 build:clang-cl --copt /clang:-Wno-c++98-compat
 build:clang-cl --copt /clang:-Wno-c++98-compat-pedantic
 build:clang-cl --copt /clang:--system-header-prefix=GL
-build:clang-cl --copt /clang:--system-header-prefix=SDL2
+build:clang-cl --copt /clang:--system-header-prefix=SDL
 build:clang-cl --copt /clang:--system-header-prefix=cxxopts
 build:clang-cl --copt /clang:--system-header-prefix=rang
 build:clang-cl --copt /clang:--system-header-prefix=picopng
@@ -20,7 +20,7 @@ build:clang --copt -Weverything
 build:clang --copt -Wno-c++98-compat
 build:clang --copt -Wno-c++98-compat-pedantic
 build:clang --copt --system-header-prefix=GL
-build:clang --copt --system-header-prefix=SDL2
+build:clang --copt --system-header-prefix=SDL
 build:clang --copt --system-header-prefix=cxxopts
 build:clang --copt --system-header-prefix=rang
 build:clang --copt --system-header-prefix=picopng
