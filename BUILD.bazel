@@ -2,7 +2,7 @@ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_import")
 
 alias(
 	name = "main",
-	actual = ":ThendrallTales"
+	actual = ":ThendrallEngine"
 )
 
 alias(
@@ -11,7 +11,7 @@ alias(
 )
 
 cc_binary(
-	name = "ThendrallTales",
+	name = "ThendrallEngine",
 	srcs = ["src/main.cpp"],
 	deps = [
 		":Engine",

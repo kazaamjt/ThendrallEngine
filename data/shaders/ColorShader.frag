@@ -16,6 +16,5 @@ void main() {
 		fragment_color.g * (cos(fragment_uv.y * 8 + time) + 1.0) * 0.5,
 		fragment_color.b * (cos(fragment_uv.x * 2 + time) + 1.0) * 0.5,
 		fragment_color.a
-	);
-	color = texture_color;
+	) * texture_color;
 }
