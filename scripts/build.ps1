@@ -17,7 +17,7 @@ if ($Clean) {
 }
 
 if ($GenerateAssets) {
-	.\scripts\texture_generator\env\Scripts\python.exe .\scripts\texture_generator\main.py --in .\art --out .\data\textures
+	.env\Scripts\python.exe .\tools\texture_generator\src\main.py --in .\art --out .\data\textures
 }
 
 if ($Compiler -eq 'clang') {
