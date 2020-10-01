@@ -8,6 +8,8 @@ build:clang-cl --copt /clang:-std=c++17
 build:clang-cl --copt /clang:-Weverything
 build:clang-cl --copt /clang:-Wno-c++98-compat
 build:clang-cl --copt /clang:-Wno-c++98-compat-pedantic
+build:clang-cl --copt /clang:-Wno-global-constructors
+build:clang-cl --copt /clang:-Wno-exit-time-destructors
 build:clang-cl --copt /clang:--system-header-prefix=GL
 build:clang-cl --copt /clang:--system-header-prefix=SDL
 build:clang-cl --copt /clang:--system-header-prefix=cxxopts

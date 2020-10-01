@@ -16,11 +16,7 @@ GLTexture TextureLoader::load_png(const std::string &name) {
 	std::unique_ptr<std::vector<unsigned char>> raw_data;
 	std::vector<unsigned char> out;
 
-	try {
-		raw_data = IOManager::read_file_to_buffer("data/textures/" + name + ".png");
-	} catch(const std::exception& e) {
-		Terminal::out_error(e.what());
-	}
+	raw_data = IOManager::read_file_to_buffer("data/textures/" + name + ".png");
 
 	unsigned long width, height;
 	int error_code = decodePNG(out, width, height, &raw_data->at(0), raw_data->size());

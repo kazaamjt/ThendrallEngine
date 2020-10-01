@@ -11,7 +11,7 @@ std::unique_ptr<std::vector<unsigned char>> IOManager::read_file_to_buffer(const
 	auto buffer = std::unique_ptr<std::vector<unsigned char>>(new std::vector<unsigned char>());
 	std::ifstream file(file_path, std::ios::binary);
 	if (file.fail()) {
-		throw "Failed to load file " + file_path + ": " + strerror(errno);
+		Terminal::out_error("Failed to load texture: \"" + file_path + "\"");
 	}
 
 	file.seekg(0, std::ios::end);
