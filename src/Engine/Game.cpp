@@ -13,7 +13,8 @@ Game::Game(const std::string &_name):
 	screen_width(1280),
 	screen_height(720),
 	state(GameState::INIT),
-	sprite(-1.0f, -1.0f, 2.0f, 2.0f),
+	context(std::make_shared<Context>()),
+	sprite(-1.0f, -1.0f, 2.0f, 2.0f, "drone", context),
 	color_shader("color_shader"),
 	time(0)
 {
@@ -71,7 +72,6 @@ void Game::init() {
 
 void Game::run() {
 	init();
-	texture = TextureLoader::load_png("drone");
 	main_loop();
 }
 
@@ -105,7 +105,6 @@ void Game::draw() {
 
 	color_shader.use();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture.id);
 
 	GLint sampler_uniform = color_shader.get_uniform_location("in_texture");
 	glUniform1i(sampler_uniform, 0);

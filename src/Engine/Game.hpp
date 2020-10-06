@@ -9,6 +9,7 @@
 #include "Sprite.hpp"
 #include "GLSLProgram.hpp"
 #include "GLTexture.hpp"
+#include "Context.hpp"
 
 namespace Engine {
 
@@ -42,12 +43,13 @@ private:
 	int screen_width;
 	int screen_height;
 	GameState state;
+	std::shared_ptr<Context> context;
 
 	Sprite sprite;
-	GLTexture texture;
 
 	GLSLProgram color_shader;
 	float time;
+
 };
 
 } // Engine

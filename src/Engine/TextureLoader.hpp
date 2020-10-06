@@ -4,10 +4,8 @@
 
 #include "GLTexture.hpp"
 
-namespace Engine {
+namespace Engine::TextureLoader {
 
-class TextureLoader {
-public:
-	static GLTexture load_png(const std::string &name);
-};
-} // Engine
+GLTexture load_png(const std::string &name);
+
+} // Engine::TextureLoader

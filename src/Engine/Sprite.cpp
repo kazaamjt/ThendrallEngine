@@ -7,15 +7,24 @@
 
 namespace Engine {
 
-Sprite::Sprite(float _x, float _y, float _width, float _height):
-	x(_x), y(_y), width(_width), height(_height), vbo_id(0)
-{
-
-}
+Sprite::Sprite(
+	float _x, float _y,
+	float _width, float _height,
+	const std::string& _texture,
+	std::shared_ptr<Context> _context
+):
+	x(_x), y(_y),
+	width(_width), height(_height),
+	vbo_id(0),
+	texture_name(_texture),
+	context(_context) { }
 
 void Sprite::update(float _x, float _y) {
 	x = _x;
 	y = _y;
+	if (texture.id == 0) {
+		texture = context->resource_manager.get_texture(texture_name);
+	}
 
 	if (vbo_id == 0) {
 		glGenBuffers(1, &vbo_id);
@@ -53,6 +62,10 @@ void Sprite::update(float _x, float _y) {
 }
 
 void Sprite::draw() {
+	if (context->resource_manager.bound_texture != texture.id) {
+		glBindTexture(GL_TEXTURE_2D, texture.id);
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);

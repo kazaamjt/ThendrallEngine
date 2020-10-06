@@ -8,9 +8,9 @@
 #include "Terminal.hpp"
 #include "IOManager.hpp"
 
-namespace Engine {
+namespace Engine::TextureLoader {
 
-GLTexture TextureLoader::load_png(const std::string &name) {
+GLTexture load_png(const std::string &name) {
 	GLTexture texture = {};
 
 	std::unique_ptr<std::vector<unsigned char>> raw_data;
@@ -21,7 +21,8 @@ GLTexture TextureLoader::load_png(const std::string &name) {
 	unsigned long width, height;
 	int error_code = decodePNG(out, width, height, &raw_data->at(0), raw_data->size());
 	if (error_code != 0) {
-		Terminal::out_error("PicoPNG: failed to decode png (ErrorCode " + std::to_string(error_code) + ")");
+		Terminal::out_warning("PicoPNG: failed to decode png (ErrorCode " + std::to_string(error_code) + ")");
+		return texture;
 	}
 	texture.width = static_cast<int>(width);
 	texture.height = static_cast<int>(height);
@@ -40,4 +41,4 @@ GLTexture TextureLoader::load_png(const std::string &name) {
 	return texture;
 }
 
-} // Engine
+} // Engine::TextureLoader
