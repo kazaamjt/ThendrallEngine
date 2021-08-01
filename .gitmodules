@@ -1,3 +1,0 @@
-[submodule "tools/texture_generator"]
-	path = tools/texture_generator
-	url = git@github.com:kazaamjt/Texture-Generator.git
